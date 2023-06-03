@@ -97,13 +97,12 @@ def deal_initial_cards(deck):
     return player_hand, dealer_hand
 
 def handle_player_choice(stdscr, deck, player_hand):
-    # Handle the player's choice to hit or stand
     stdscr.addstr(f'\nYou have a score of {calculate_hand_value(player_hand)}.')
     stdscr.addstr('\nDo you want to hit or stand? (h/s): ')
     stdscr.refresh()
     choice = stdscr.getkey().lower()
 
-    if choice == 'h':
+    while choice == 'h':
         player_hand.append(deck.pop())
         delayed_print(stdscr, '\nYou decide to hit...')
         display_cards(stdscr, player_hand)
@@ -115,7 +114,12 @@ def handle_player_choice(stdscr, deck, player_hand):
                 return None
             else:
                 return 'continue'
-    elif choice == 's':
+
+        stdscr.addstr('\nDo you want to hit or stand? (h/s): ')
+        stdscr.refresh()
+        choice = stdscr.getkey().lower()
+
+    if choice == 's':
         delayed_print(stdscr, '\nYou decide to stand.')
         return 'stand'
     else:
